@@ -1,0 +1,38 @@
+{
+  "name": "blackbird",
+  "version": "1.0.0",
+  "description": "Blackbird is a reverse proxy, with built-in node cluster and load balancing.",
+  "repository": {
+    "type": "github",
+    "url": "git@github.com:alireza12prom/blackbird.git"
+  },
+  "author": "Alireza Rezapour",
+  "license": "GPL",
+  "main": "dist/proxy.js",
+  "types": "dist/proxy.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "start:dev": "ts-node src/proxy.ts -w",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "http-proxy": "^1.18.1",
+    "socket.io": "^4.7.1",
+    "url-join-ts": "^1.0.5",
+    "url-parse": "^1.5.10",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/http-proxy": "^1.17.11",
+    "@types/node": "^20.4.2",
+    "@types/url-parse": "^1.4.8",
+    "@types/valid-url": "^1.0.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
