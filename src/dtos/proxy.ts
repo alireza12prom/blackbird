@@ -1,3 +1,5 @@
+import { CorsOptions } from 'cors';
+
 export interface ProxyOpts {
   http: {
     /**
@@ -26,6 +28,12 @@ export interface ProxyOpts {
      */
     ca?: string | Buffer;
   };
+
+  /**
+   * For more information, see the link below.
+   * @link https://github.com/expressjs/cors
+   */
+  cors?: CorsOptions;
 
   /**
    * set `false` to disable logging.

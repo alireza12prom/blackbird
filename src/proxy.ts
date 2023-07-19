@@ -1,6 +1,7 @@
 import os from 'os';
 import tls from 'tls';
 import http from 'http';
+import cors from 'cors';
 import https from 'https';
 import cluster from 'cluster';
 import httpProxy from 'http-proxy';
@@ -238,6 +239,7 @@ export class ReversProxy {
     this._proxyServer = httpProxy.createProxyServer({
       prependPath: false,
       xfwd: false,
+      secure: false,
     });
 
     this._proxyServer.on('error', (err, req, res, target) => {
@@ -245,7 +247,7 @@ export class ReversProxy {
 
       if (err && (err as any)['code'] == 'ECONNREFUSED') {
         this.proxy_logger.error(
-          `proxing to [${hostname}] faild! [maybe the target is not exists]`
+          `proxing to [${hostname}] faild! [maybe the target does not exist]`
         );
         return;
       }
@@ -293,19 +295,17 @@ export class ReversProxy {
     });
 
     this._httpServer.on('request', (req, res) => {
-      const result = this.searchTarget(req, 'http');
-
-      if (result.target) {
-        if (result.redirect) {
-          res.writeHead(302, { Location: result.target }).end();
-          this.http_logger.info(`redirecting [${result.source} -> ${result.target}]`);
-        } else {
-          this._proxyServer.web(req, res, { target: result.target });
-          this.http_logger.message(`proxing [${result.source} -> ${result.target}]`);
-        }
+      if (this.proxyOpts.cors) {
+        cors(this.proxyOpts.cors)(req, res, (err) => {
+          if (err) {
+            this.http_logger.error(`Error on handling cors!`);
+            res.end();
+          } else {
+            this.__httpHandler(req, res);
+          }
+        });
       } else {
-        res.destroy();
-        this.http_logger.error(`proxing [${result.source} -> ?]`);
+        this.__httpHandler(req, res);
       }
     });
 
@@ -349,14 +349,17 @@ export class ReversProxy {
     });
 
     this._httpsServer.on('request', (req, res) => {
-      const result = this.searchTarget(req, 'https');
-
-      if (result.target) {
-        this._proxyServer.web(req, res, { target: result.target });
-        this.https_logger.message(`proxing [${result.source} -> ${result.target}]`);
+      if (this.proxyOpts.cors) {
+        cors(this.proxyOpts.cors)(req, res, (err) => {
+          if (err) {
+            this.https_logger.error(`Error on handling cors!`);
+            res.end();
+          } else {
+            this.__httpsHandler(req, res);
+          }
+        });
       } else {
-        res.destroy();
-        this.https_logger.error(`proxing [${result.source} -> ?]`);
+        this.__httpsHandler(req, res);
       }
     });
 
@@ -373,6 +376,35 @@ export class ReversProxy {
     });
 
     this._httpsServer.listen(port, '0.0.0.0');
+  }
+
+  private __httpHandler(req: http.IncomingMessage, res: http.ServerResponse) {
+    const result = this.searchTarget(req, 'http');
+
+    if (result.target) {
+      if (result.redirect) {
+        res.writeHead(302, { Location: result.target }).end();
+        this.http_logger.info(`redirecting [${result.source} -> ${result.target}]`);
+      } else {
+        this._proxyServer.web(req, res, { target: result.target });
+        this.http_logger.message(`proxing [${result.source} -> ${result.target}]`);
+      }
+    } else {
+      res.destroy();
+      this.http_logger.error(`proxing [${result.source} -> ?]`);
+    }
+  }
+
+  private __httpsHandler(req: http.IncomingMessage, res: http.ServerResponse) {
+    const result = this.searchTarget(req, 'https');
+
+    if (result.target) {
+      this._proxyServer.web(req, res, { target: result.target });
+      this.https_logger.message(`proxing [${result.source} -> ${result.target}]`);
+    } else {
+      res.destroy();
+      this.https_logger.error(`proxing [${result.source} -> ?]`);
+    }
   }
 
   private createSecureContext(

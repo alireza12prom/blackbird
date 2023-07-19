@@ -1,6 +1,6 @@
 {
   "name": "blackbird",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Blackbird is a reverse proxy, with built-in node cluster and load balancing.",
   "repository": {
     "type": "github",
@@ -20,6 +20,7 @@
   "keywords": [],
   "dependencies": {
     "chalk": "^4.1.2",
+    "cors": "^2.8.5",
     "http-proxy": "^1.18.1",
     "socket.io": "^4.7.1",
     "url-join-ts": "^1.0.5",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
+    "@types/cors": "^2.8.13",
     "@types/http-proxy": "^1.17.11",
     "@types/node": "^20.4.2",
     "@types/url-parse": "^1.4.8",
