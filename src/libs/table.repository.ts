@@ -68,6 +68,11 @@ export class TableRepository {
           }
           return true;
         });
+
+        // delete host if it doesn't have any subscribers
+        if (host.subscriber.length) {
+          this._repository = this._repository.filter((h) => h != host);
+        }
         break;
       }
     }
