@@ -14,6 +14,7 @@
     "/dist"
   ],
   "scripts": {
+    "test": "npx mocha -r ts-node/register 'src/__test__/**/*.spec.ts'",
     "start:dev": "ts-node src/proxy.ts -w",
     "build": "tsc"
   },
@@ -28,12 +29,16 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.5",
     "@types/chalk": "^2.2.0",
     "@types/cors": "^2.8.13",
     "@types/http-proxy": "^1.17.11",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^20.4.2",
     "@types/url-parse": "^1.4.8",
     "@types/valid-url": "^1.0.4",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
