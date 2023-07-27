@@ -17,7 +17,7 @@ export function digest({ url }: UrlDto.DigestDto) {
 
 export function detachHostFromPort(hostname: string) {
   const [host, port] = hostname.split(':');
-  return { host, port };
+  return { host, port: port || '80' };
 }
 
 /**
