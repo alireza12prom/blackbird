@@ -37,7 +37,17 @@ export class ReversProxy {
   private _proxyServer!: httpProxy;
   private _httpServer!: http.Server;
   private _httpsServer?: https.Server;
-  constructor(private proxyOpts: ProxyOpts) {}
+  constructor(private proxyOpts: ProxyOpts) {
+    this.proxyOpts.logging = proxyOpts.logging === true;
+
+    /**
+     * setup loggers
+     */
+    this.ws_logger = new Logger('WS', this.proxyOpts.logging);
+    this.http_logger = new Logger('HTTP', this.proxyOpts.logging);
+    this.https_logger = new Logger('HTTPS', this.proxyOpts.logging);
+    this.proxy_logger = new Logger('PROXY', this.proxyOpts.logging);
+  }
 
   register({ source, target, opts }: RegisterDto) {
     // --- check source and target are valid
@@ -161,16 +171,6 @@ export class ReversProxy {
   start() {
     this.__setupProxyServer();
     this.__setupHttpServer();
-
-    /**
-     * setup logger
-     */
-
-    let { logging } = this.proxyOpts;
-    this.ws_logger = new Logger('WS', logging === true);
-    this.http_logger = new Logger('HTTP', logging === true);
-    this.https_logger = new Logger('HTTPS', logging === true);
-    this.proxy_logger = new Logger('PROXY', logging === true);
 
     /**
      * setup https
