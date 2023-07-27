@@ -27,11 +27,11 @@ export function detachHostFromPort(hostname: string) {
  *
  *  2. the returned path always containt `/` at the first.
  * @example
- *  let incomePath = '/well/done'
- *  let sourcePath = '/well/done/test'
+ *  let incomePath = '/well/done/okey'
+ *  let sourcePath = '/well/done'
  *  let targetPath = '/'
  *
- *  let result = targetPath + '/test'
+ *  let result = targetPath + '/okey'
  *
  */
 export function merge({ incomePath, sourcePath, targetPath }: UrlDto.MergeDto) {
@@ -40,5 +40,7 @@ export function merge({ incomePath, sourcePath, targetPath }: UrlDto.MergeDto) {
   const longPath = incomePath.split('/').filter((s) => s != '');
   const shortPath = sourcePath.split('/').filter((s) => s != '');
 
-  return '/' + urlJoin.urlJoin(targetPath, longPath.slice(shortPath.length).join('/'));
+  return (
+    urlJoin.urlJoin('/' + targetPath, longPath.slice(shortPath.length).join('/')) || '/'
+  );
 }
