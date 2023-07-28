@@ -89,4 +89,23 @@ proxy.attachSSL({
 
 > NOTE 2: You can't attach several creditions for a single `hostname`.
 
+
+## How to run Redbird?
+
+To start proxy, you have two options. You can either run it in the normal way like below:
+
+```
+proxy.start();
+```
+
+Or run it in the cluster mode like below:
+
+```
+proxy.startCluster(3);
+```
+
+In this case Blackbird will run three instances of our proxy. To learn more about `cluster` in nodejs go to [node-cluster].
+
+
 [round-robin]: https://en.wikipedia.org/wiki/Round-robin_scheduling
+[node-cluster]: https://nodejs.org/api/cluster.html#:~:text=Clusters%20of%20Node.js%20processes,a%20single%20Node.js%20instance.
