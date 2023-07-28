@@ -18,7 +18,11 @@
     "start:dev": "ts-node src/proxy.ts -w",
     "build": "tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "proxy",
+    "reverse-proxy",
+    "blackbird"
+  ],
   "dependencies": {
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
