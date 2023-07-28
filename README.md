@@ -52,4 +52,41 @@ proxy.register({
 - For load balancing, Blackbird uses [round-robin] algorithm.
 
 
+## Enable HTTPS
+
+To enable HTTPS, you can pass creditions like below:
+
+```
+const proxy = new ReversProxy({
+  http: {
+    port: 3000,
+  },
+  https: {
+    port: 9000,
+    cert: 'path/to/cert.pem',
+    key: 'path/to/key.pem',
+    ca: 'path/to/ca.pem',
+  },
+});
+```
+
+> NOTE 1: `port` is required.
+
+> NOTE 2: `cert`, `key` and `ca` can be buffers. (`ca` is optional)
+
+In the above example, the creditoins that we set wil use for all registerd domain, but you can also attach the creditions for a specifyed domain.
+
+```
+proxy.attachSSL({
+  hostname: 'localhost:3000',
+  cert: 'path/to/cert.pem',
+  key: 'path/to/key.pem',
+  ca: 'path/to/ca.pem',
+});
+```
+
+> NOTE 1: `hostname` is the hostname that we registerd as `source` above as you saw.
+
+> NOTE 2: You can't attach several creditions for a single `hostname`.
+
 [round-robin]: https://en.wikipedia.org/wiki/Round-robin_scheduling
