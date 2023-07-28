@@ -106,6 +106,31 @@ proxy.startCluster(3);
 
 In this case Blackbird will run three instances of our proxy. To learn more about `cluster` in nodejs go to [node-cluster].
 
+## Does Blackbird handle CORS in its own?
+
+Yes! Blackbird uses [Express Cors] package to handle this concept and you can enable it like below:
+```
+const proxy = new ReversProxy({
+  http: {
+    port: 3000,
+  },
+  cors: {
+    origin: 'http://localhost:3000/'
+  }
+});
+```
+
+> NOTE 1: All the options is similar with [Express Cors] package.
+
+
+## TODOs
+- [x] Writing Unite test for Table repository.
+- [x] Writing Unite test for SSL repository.
+- [ ] CORS error on redirecting from http to https.
+- [ ] CORS error on websocket communication.
+- [ ] Writing Unite test for proxy class.
+
 
 [round-robin]: https://en.wikipedia.org/wiki/Round-robin_scheduling
 [node-cluster]: https://nodejs.org/api/cluster.html#:~:text=Clusters%20of%20Node.js%20processes,a%20single%20Node.js%20instance.
+[Express Cors]: https://github.com/expressjs/cors
