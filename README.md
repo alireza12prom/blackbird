@@ -90,7 +90,7 @@ proxy.attachSSL({
 > NOTE 2: You can't attach several creditions for a single `hostname`.
 
 
-## How to run Redbird?
+## How to run our proxy?
 
 To start proxy, you have two options. You can either run it in the normal way like below:
 
