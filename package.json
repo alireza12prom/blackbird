@@ -1,6 +1,6 @@
 {
   "name": "@namatery/blackbird",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Blackbird is a reverse proxy, with built-in node cluster and load balancing.",
   "repository": {
     "type": "github",
